@@ -1,0 +1,194 @@
+<ui:composition  xmlns:h="http://xmlns.jcp.org/jsf/html"
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core" template="/WEB-INF/template/template.xhtml">
+
+    <ui:define name="complete">
+
+        <h:form id="mainform" style="text-align: center">
+            <p:growl id="msgs" showDetail="true" rendered="true"/>
+            <h:panelGroup >Catálogo Empresas</h:panelGroup>
+
+            <p:dataTable id="dataTable" var="p" value="#{empresaBeanPersistence.listaEmpresas}" paginator="true" rows="10" paginatorPosition="bottom" editable="true"
+                         widgetVar=" dataTableWidget" selectionMode="single" style="margin-bottom:20px" rowKey="#{p.idEmpresa}">
+
+                <p:ajax event="rowEdit" listener="#{empresaBeanPersistence.onRowEdit}" update="@this :mainform:msgs  :mainform:dataTable" process="@this"/>
+                <p:ajax event="rowEditCancel" listener="#{empresaBeanPersistence.onRowCancel}" update="@this mainform:msgs :mainform:dataTable" process="@this"/>
+
+
+                <p:column headerText="Clave Empresa" filterBy="#{p.claveEmpresa}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{p.claveEmpresa}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="claveEmpresaInput" value="#{p.claveEmpresa}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Nombre Empresa" filterBy="#{p.nombreEmpresa}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{p.nombreEmpresa}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="nombreEmpresaInput" value="#{p.nombreEmpresa}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Estatus Empresa" filterBy="#{p.statusEmpresa}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:selectBooleanCheckbox value="#{p.activo}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:selectBooleanCheckbox value="#{p.activo}" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Fecha Alta" filterBy="#{p.fechaAlta}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{p.fechaAlta}">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{p.fechaAlta}" 
+                                         converter="javax.faces.DateTime" 
+                                         required="true">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Fecha Servidor" filterBy="#{p.fechaServidor}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{p.fechaServidor}">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{p.fechaServidor}" 
+                                         converter="javax.faces.DateTime" 
+                                         required="true">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:8rem">
+                    <f:facet name="header">
+
+                        <h:outputText value="Nueva Fila" style="margin-right: 30px; margin-bottom: 10px"/>
+
+                        <p:commandButton  icon="pi pi-plus" 
+                                          style="background-color: #800000; color: #ffffff; border: 2px solid #FF5733;border-color: #C70039; width: 120px;" 
+                                          onclick=" PF('dialogo').show();"    
+                                          process="@this" />
+
+                    </f:facet>
+                    <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row"/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton icon="pi pi-trash"
+                                     styleClass="mr-2"
+                                     style="background-color: #800000; color: #ffffff; border: 2px solid #FF5733;border-color: #C70039; width: 100px;"
+
+                                     action="#{empresaBeanPersistence.eliminarEmpresa(p.idEmpresa)}"
+                                     process="@this">
+                        <p:confirm  header="Confirmation" message="¿Esta seguro que desea eliminar la fila #{p.idEmpresa}?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>  
+                </p:column>
+            </p:dataTable>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                <p:commandButton value="No,eliminar" type="button" styleClass="ui-confirmdialog-no ui-button-flat"
+                                 oncomplete="PF('confirmDialog').hide();return false;"
+                                 update=":mainform:dataTable :mainform:msgs"
+                                 />
+                <p:commandButton value="Si,eliminar"  styleClass="ui-confirmdialog-yes" 
+                                 type="button"
+                                 oncomplete="PF('confirmDialog').hide(); PF('msgs').show();" 
+                                 update=":mainform:dataTable :mainform:msgs"
+                                 />
+            </p:confirmDialog>
+
+
+            <p:dialog header="Agregar Nueva Empresa" widgetVar="dialogo" closable="true" rendered="true"
+                      height="auto" width="auto" style="min-width: 300px; max-width: 90%;"  minHeight="400" 
+                      minWidth="600" >
+                <p:outputPanel id="panel" styleClass="mb-2">
+
+                    <h:outputText value="Usuario agregará una nueva fila. Complete el formulario a continuación:" />
+                    <h:panelGrid columns="1" style="width: 100%; max-width: 90%;border-spacing: 10px; margin-top:20px; text-align: left;">
+
+                        <p:outputLabel for="claveEmpresaInput" value="Clave Empresa:" />
+                        <p:inputText id="claveEmpresaInput"  value="#{empresaBeanPersistence.nuevaEmpresa.claveEmpresa}" 
+                                     onblur="if (this.value.trim() === '') {
+                                                 this.classList.add('ui-state-error');
+                                             } else {
+                                                 this.classList.remove('ui-state-error');
+                                             }" 
+                                     styleClass="inputField">
+
+                        </p:inputText>
+                        <p:message for="claveEmpresaInput" display="text"/>
+
+                        <p:outputLabel for="nombreEmpresaInput" value="Nombre Empresa:" style="text-align: left;"/>
+                        <p:inputText id="nombreEmpresaInput"  value="#{empresaBeanPersistence.nuevaEmpresa.nombreEmpresa}" 
+                                     onblur="if (this.value.trim() === '') {
+                                                 this.classList.add('ui-state-error');
+                                             } else {
+                                                 this.classList.remove('ui-state-error');
+                                             }" 
+                                     styleClass="inputField">
+
+                        </p:inputText>
+                        <p:message for="nombreEmpresaInput" display="text"/>
+
+                       <!-- <p:outputLabel for="fechaServidorInput" value="Fecha Servidor:" />
+                        <p:calendar 
+                            id="fechaServidorInput" 
+                            value="#{empresaBeanPersistence.nuevaEmpresa.fechaServidor}" 
+                            pattern="yyyy-MM-dd HH:mm:ss" 
+
+                            required="true" 
+
+                            timeOnly="false"
+                            valueChangeListener="#{empresaBeanPersistence.fechaServidorCambiada()}"
+
+                            navigator="true">
+                        </p:calendar>
+                        <p:message for="fechaServidorInput" display="text"/>
+                              -->
+
+                    </h:panelGrid>
+                </p:outputPanel>
+
+                <p:commandButton value="Guardar" icon="pi pi-check" 
+                                 style="background-color: #800000; color: #ffffff;" 
+                                 process="@this,claveEmpresaInput,nombreEmpresaInput"    
+                                 action="#{empresaBeanPersistence.guardarNuevaEmpresa()}" 
+                                 update=":mainform:msgs , panel" 
+
+                                 oncomplete="PF('dialogo').hide();#{empresaBean.reset()}"/>
+                <p:commandButton value="Cancelar" icon="pi pi-times"
+                                 style="background-color: #800000; color: #ffffff;" 
+                                 update="panel"
+                                 action="#{empresaBeanPersistence.reset()}" 
+                                 oncomplete="PF('dialogo').hide();"
+                                 process="@this"
+                                 />
+
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

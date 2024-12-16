@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:pa="http://primefaces.org/mirage" xmlns:pm="http://primefaces.org/mirage">
+
+    <div class="layout-topbar">
+        <div class="layout-topbar-wrapper">
+            <div class="layout-topbar-left">
+                <div class="layout-topbar-logo-wrapper">
+                    <a href="inicio.xhtml" class="layout-topbar-logo">
+                        <p:graphicImage name="images/icono.png" alt="verify"/>
+                        <h:outputText value="Proyecto Capacitación" styleClass="app-name" />
+
+                    </a>
+                </div>
+
+                <a href="#" class="sidebar-menu-button">
+                    <i class="pi pi-bars"/>
+                </a>
+
+                <a href="#" class="megamenu-mobile-button">
+                    <i class="pi pi-align-right megamenu-icon"/>
+                </a>
+
+                <div class="layout-sidebar" style="display: none;">
+                    <div class="sidebar-logo">
+                        <a href="inicio.xhtml">
+                            <p:graphicImage name="#{request.contextPath}/resources/images/icono.png" />
+                            <h:outputText value="Proyecto Capacitación" styleClass="app-name" />
+                        </a>
+                    </div>
+                </div>
+
+
+                <a href="#" class="topbar-menu-mobile-button">
+                    <i class="pi pi-ellipsis-v"/>
+                </a>
+
+
+            </div>
+            <div class="layout-topbar-right">
+                <ul class="layout-topbar-actions">
+
+                    <li class="search-item topbar-item">
+                        <a href="#" class="topbar-search-mobile-button">
+                            <i class="topbar-icon pi pi-search"/>
+                        </a>
+                        <ul class="search-item-submenu">
+                            <li>
+                                <!--<h:form onsubmit="return false;">
+                                    <h:panelGroup styleClass="md-inputfield search-input-wrapper">
+                                        <p:inputText placeholder="Search..." />
+                                        <i class="pi pi-search"/>
+                                    </h:panelGroup>
+                                </h:form>-->
+                                <h:form onsubmit="return false;">
+                                    <h:panelGroup styleClass="md-inputfield search-input-wrapper">
+                                    <!--<div class="notification">-->
+                                        👋 Hola,  <h:outputText value="#{sessionScope.nombreCompleto}"  styleClass="username" />
+                                   <!-- </div>-->
+                                         </h:panelGroup>
+                                </h:form>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="topbar-item">
+
+                        <a href="#">
+                            <h:graphicImage name="images/icono.jpg"  alt="Logo" styleClass="galleria-image-icons" width="50px"/>
+                        </a>
+
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+
+</ui:composition>

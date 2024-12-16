@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Login</title>
+        <link rel="icon" type="image/x-icon" href="#{request.contextPath}/resources/images/icono.ico" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style>
+            .spacer {
+                margin-top: 50px; /* Ajusta el valor según necesites */
+            }
+            .galleria-image-icons{
+                width: 100px;
+                height:100px;
+                object-fit: cover;
+            }
+            .flex-container {
+                display: flex;
+                justify-content: flex-end; 
+                margin-top: 20px; 
+            }
+            .flex-container-center {
+                display: flex;
+                justify-content: center; 
+                margin-top: 80px; 
+            }
+            #loading {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 1000;
+                display: none; /* Inicialmente oculto */
+            }
+        </style>
+    </h:head>
+    <h:body style="background-color: #800000; color: #ffffff;">
+        <div  id="loading" style="display:none; width: 600px; height: auto;" >
+            <img src="#{request.contextPath}/resources/images/giphy.gif" alt="Cargando..." style="width: 600px; height: auto; border-radius: 50%;" />
+        </div>
+
+        <h:form id="loginForm"  style="text-align: center">
+           <p:growl id="login" showDetail="true" rendered="true"/>
+            <div class="flex-container">
+                <h:graphicImage name="images/icono.jpg" alt="Logo" styleClass="galleria-image-icons" />
+            </div>
+
+
+            <div class="flex-container-center">
+
+                <h:panelGrid  class="spacer" columns="1" styleClass="login-grid">
+                    <p:outputLabel for="usuario" value="Username:" />
+                    <i class="pi pi-user"></i>
+                    <p:inputText id="usuario"  value="#{loginBean.login.usuario}" maxlength="12" required="true" />
+
+                    <p:outputLabel for="pass" value="Password:" />
+                    <i class="pi pi-lock"></i>
+                    <p:password id="pass"  value="#{loginBean.login.pass}" maxlength="18" required="true" toggleMask="true" />
+
+                    <br>
+                        <p:commandButton value="Login" action="#{loginBean.login}"  style="background-color: #800000; color: #ffffff; border: 2px solid #FF5733;border-color: #FFFFFF;" 
+                                         onstart="document.getElementById('loading').style.display = 'block';" 
+                                         oncomplete="document.getElementById('loading').style.display = 'none';"
+                                        update=":loginForm:login" />
+                    </br>
+                </h:panelGrid>
+            </div>
+            <p:messages globalOnly="true" />
+        </h:form>
+    </h:body>
+</html>

@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core" template="/WEB-INF/template/template.xhtml"> 
+
+    <ui:define name="complete">
+        <h:form id="formReporteHist" style="text-align: center" >
+            <p:growl id="msgsReporteHist" showDetail="true"/>
+            <h:panelGroup style="text-align:center;">Reporte Historico</h:panelGroup> 
+
+       <h:panelGroup style="display: flex; justify-content: center; align-items: center; text-align: center;margin-top: 10px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <h:outputLabel for="fechaInicio" value="Fecha Inicio:" />
+                    <p:calendar id="fechaInicio" value="#{reporteBean.fechaInicio}" pattern="yyyy/MM/dd" 
+                                showButtonPanel="true" 
+                                navigator="true" 
+                                locale="es"/>
+
+                    <h:outputLabel for="fechaFin" value="Fecha Fin:" />
+                    <p:calendar id="fechaFin" value="#{reporteBean.fechaFin}" pattern="yyyy/MM/dd" 
+
+                                showButtonPanel="true" 
+                                navigator="true" 
+                                locale="es"/>
+
+
+
+                    <p:commandButton value="Generar Reporte" action="#{reporteBean.buscarVentas}" update=":formReporteHist:reporteTable  :formReporteHist:msgsReporteHist" />
+
+                </div>
+            </h:panelGroup>
+     
+            <p:dataTable id="reporteTable"  value="#{reporteBean.ventas}" var="reporte" paginator="true" rows="10">
+
+                
+                <p:column headerText="Nombre Sucursal">
+                    <h:outputText value="#{reporte.nombreSucursal}" />
+                </p:column>
+                <p:column headerText="Nombre Empresa">
+                    <h:outputText value="#{reporte.nombreEmpresa}" />
+                </p:column>
+                <p:column headerText="Nombre Empleado">
+                    <h:outputText value="#{reporte.nombreCompletoEmpleado}" />
+                </p:column>
+                <p:column headerText="Cantidad Productos">
+                    <h:outputText value="#{reporte.cantidadProductos}" />
+                </p:column>
+                
+                <p:column headerText="Total Venta">
+                    <h:outputText value="#{reporte.totalVenta}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

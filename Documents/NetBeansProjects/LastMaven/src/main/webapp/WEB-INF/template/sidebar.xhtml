@@ -1,0 +1,52 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mirage">
+
+    <div class="layout-sidebar">
+
+        <div class="sidebar-logo" >
+            <p:graphicImage value="#{resource['images/icono.png']}"/>
+            <h:outputText value="Proyecto Capacitación" styleClass="app-name" />
+        </div>
+
+        <div class="sidebar-logo">
+            <div class="menu-toggle" title="Toggle Menu" onclick="toggleMenu()">
+                <i class="pi pi-bars" style="cursor: pointer;"></i>
+            </div>
+            <a href="#" class="sidebar-pin" title="Toggle Menu">
+                <i class="pi pi-lock"/>
+            </a>
+        </div>
+
+
+        <div class="layout-menu-container">
+
+            <h:form id="menuform">
+                <pm:menu >
+                    <p:menuitem id="om_dashboard" value="Inicio" icon="pi pi-home" outcome="/inicio.xhtml"/>
+                    <p:menuitem value="Sucursales" icon="pi pi-building"  outcome="/catalogo/sucursal.xhtml" />
+                    <p:menuitem value="SucursalesPersistence" icon="pi pi-building"  outcome="/catalogo/sucursalPersistence.xhtml" />
+                    <p:menuitem value="EmpresasPersistence" icon="pi pi-briefcase"  outcome="/catalogo/empresaPersistence.xhtml"/>
+                    <p:menuitem value="Empresas" icon="pi pi-briefcase"  outcome="/catalogo/empresa.xhtml"/>
+                     <p:menuitem value="PerfilesPersistence" icon="pi pi-users"  outcome="/catalogo/perfilesPersistence.xhtml"/>
+                    <p:menuitem value="Perfiles" icon="pi pi-users"  outcome="/catalogo/perfiles.xhtml"/>
+                    <p:menuitem id="om_login" value="Cerrar sesión" icon="pi pi-fw pi-sign-out" outcome="/login" />
+
+                    <p:menuitem value="Applicacion Reportes" icon="pi pi-ellipsis-h" />
+                    <p:submenu label="Reportes"  icon="pi pi-chart-line">
+                        <p:menuitem value="Reporte Histórico" icon="pi-exclamation-circle"  outcome="/catalogo/reporteHistorico.xhtml" />
+                        <p:menuitem value="Reporte STP" icon="pi-info-circle"  outcome="/catalogo/reporteSTP.xhtml"/>
+                    </p:submenu>
+
+
+                </pm:menu>
+            </h:form>
+        </div>
+    </div>
+
+</ui:composition>
+

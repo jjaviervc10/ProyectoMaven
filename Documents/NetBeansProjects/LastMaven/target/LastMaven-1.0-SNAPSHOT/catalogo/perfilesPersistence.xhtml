@@ -1,0 +1,272 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core" template="/WEB-INF/template/template.xhtml"> 
+
+    <ui:define name="complete">
+        <h:form id="perfilForm" style="text-align: center" >
+            <p:growl id="msgsP" showDetail="true"/>
+            <h:panelGroup style="text-align:center">Catálogo Perfiles</h:panelGroup> 
+
+            <p:dataTable id="dataTable" var="perfil" value="#{perfilBeanPersistence.listaPerfiles}"    
+                         paginator="true" rows="10" paginatorPosition="bottom" editable="true"
+                         widgetVar=" dataTableWidget" selectionMode="single" style="margin-bottom:20px" 
+                         lazy="false" reflow="true" rowKey="#{perfil.idPerfil}"  editMode="row">
+
+
+                <p:ajax event="rowEdit" listener="#{perfilBeanPersistence.onRowEdit}" update="@this :perfilForm:msgsP  :perfilForm:dataTable" process="@this"/>
+                <p:ajax event="rowEditCancel" listener="#{perfilBeanPersistence.onRowCancel}" update="@this perfilForm:msgsP :perfilForm:dataTable" process="@this"/>
+
+
+
+               <!-- <p:column headerText="Id Perfil" filterBy="#{perfil.idPerfil}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{perfil.idPerfil}" />
+                        </f:facet> 
+                        <f:facet name="input">
+                            <p:inputText id="idEmpresaInput" value="#{perfil.idPerfil}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>-->
+
+
+
+                <p:column headerText="Nombre Perfil" filterBy="#{perfil.nombrePerfil}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{perfil.nombrePerfil}" />
+                        </f:facet> 
+                        <f:facet name="input">
+                            <p:inputText id="nombrePerfilInput" value="#{perfil.nombrePerfil}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Descripcion Perfil" filterBy="#{perfil.descripcionPerfil}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{perfil.descripcionPerfil}" />
+                        </f:facet> 
+                        <f:facet name="input">
+                            <p:inputText id="descripcionPerfilInput" value="#{perfil.descripcionPerfil}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Estatus Perfil" filterBy="#{perfil.activo}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:selectBooleanCheckbox value="#{perfil.activo}" />
+                        </f:facet> 
+                        <f:facet name="input">
+                            <h:selectBooleanCheckbox value="#{perfil.activo}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Fecha Alta" filterBy="#{perfil.fechaAlta}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{perfil.fechaAlta}">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{perfil.fechaAlta}" 
+                                         converter="javax.faces.DateTime" 
+                                         required="true">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Fecha Baja" filterBy="#{perfil.fechaBaja}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{perfil.fechaBaja}">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{perfil.fechaBaja}" 
+                                         converter="javax.faces.DateTime" 
+                                         required="true">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Fecha Servidor" filterBy="#{perfil.fechaServidor}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{perfil.fechaServidor}">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{perfil.fechaServidor}" 
+                                         converter="javax.faces.DateTime" 
+                                         required="true">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor> 
+                </p:column>
+
+                <p:column headerText="Id Usuario" filterBy="#{perfil.idUsuario.usuario}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{perfil.idUsuario.usuario}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{perfil.idUsuario.usuario}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column style="width:8rem">
+                    <f:facet name="header">
+                        <h:outputText value="Nueva Fila" style="margin-right: 30px; margin-bottom: 10px"/>
+
+                        <p:commandButton icon="pi pi-plus" type="button"
+                                         style="background-color: #800000; color: #ffffff; border: 2px solid #FF5733;border-color: #C70039; width: 120px;"
+                                         onclick=" PF('dialogo').show();"  
+                                         process="@this"/>
+
+
+                    </f:facet>
+                    <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row"/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton icon="pi pi-id-card"
+                                     style="background-color: #800000; color: #ffffff; border: 2px solid #FF5733;border-color: #C70039; width: 100px;"
+                                     actionListener="#{perfilBeanPersistence.seleccionarPerfil(perfil)}"
+                                     onclick=" PF('dialogoPickList').show();"  
+                                     process="@this"
+                                     update=" :perfilForm:msgsP :perfilForm:pickList ">
+
+                    </p:commandButton>
+
+                </p:column>
+
+
+                <p:column>
+                    <p:commandButton icon="pi pi-trash"
+                                     styleClass="mr-2"
+                                     style="background-color: #800000; color: #ffffff; border: 2px solid #FF5733;border-color: #C70039; width: 100px;"
+                                     action="#{perfilBeanPersistence.eliminarPerfil(perfil.idPerfil)}"
+                                     process="@this">
+                        <p:confirm  header="Confirmation" message="¿Esta seguro que desea eliminar la fila #{perfil.idPerfil}?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>  
+                </p:column>
+
+            </p:dataTable>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                <p:commandButton value="No,eliminar" type="button" styleClass="ui-confirmdialog-no ui-button-flat"
+                                 oncomplete="PF('confirmDialog').hide();return false;"
+                                 update=":perfilForm:dataTable :perfilForm:msgsP"/>
+                <p:commandButton value="Si,eliminar" icon="pi pi-check"
+                                 styleClass="ui-confirmdialog-yes"
+                                 type="button"
+                                 oncomplete="PF('confirmDialog').hide(); PF('msgsP').show();"
+                                 update=":perfilForm:msgsP"
+                                 />
+            </p:confirmDialog> 
+
+
+            <p:dialog header="Agregar Nuevo Perfil" widgetVar="dialogo" closable="true" rendered="true"
+                      height="auto" width="auto" style="min-width: 300px; max-width: 90%;"  minHeight="400" 
+                      minWidth="600" >
+                <p:outputPanel id="panel" styleClass="mb-2">
+
+                    <h:outputText value="Usuario agregará una nueva fila. Complete el formulario a continuación:" />
+                    <h:panelGrid columns="1" style="width: 100%; max-width: 90%;border-spacing: 10px; margin-top:20px; text-align: left;">
+
+
+
+                        <p:outputLabel for="nombrePerfilInput" value="Nombre Perfil:" style="text-align: left;"/>
+                        <p:inputText id="nombrePerfilInput"  value="#{perfilBeanPersistence.nuevoPerfil.nombrePerfil}" 
+                                     onblur="if (this.value.trim() === '') {
+                                                 this.classList.add('ui-state-error');
+                                             } else {
+                                                 this.classList.remove('ui-state-error');
+                                             }" 
+                                     styleClass="inputField">
+
+                        </p:inputText>
+                        <p:message for="nombrePerfilInput" display="text"/>
+
+                        <p:outputLabel for="nombreDescripcionInput" value="Descripcion Perfil:" style="text-align: left;"/>
+                        <p:inputText id="nombreDescripcionInput"  value="#{perfilBeanPersistence.nuevoPerfil.descripcionPerfil}" 
+                                     onblur="if (this.value.trim() === '') {
+                                                 this.classList.add('ui-state-error');
+                                             } else {
+                                                 this.classList.remove('ui-state-error');
+                                             }" 
+                                     styleClass="inputField">
+
+                        </p:inputText>
+                        <p:message for="nombreDescripcionInput" display="text"/>
+
+
+                    </h:panelGrid>
+                </p:outputPanel>
+
+                <p:commandButton value="Guardar" icon="pi pi-check" 
+                                 style="background-color: #800000; color: #ffffff;" 
+                                 process="@this,nombrePerfilInput,nombreDescripcionInput"    
+                                 action="#{perfilBeanPersistence.guardarNuevoPerfil()}" 
+                                 update=":perfilForm:msgsP , panel" 
+
+                                 oncomplete="PF('dialogo').hide();#{perfilBeanPersistence.reset()}"/>
+                <p:commandButton value="Cancelar" icon="pi pi-times"
+                                 style="background-color: #800000; color: #ffffff;" 
+                                 update="panel"
+                                 action="#{perfilBeanPersistence.reset()}" 
+                                 oncomplete="PF('dialogo').hide();"
+                                 process="@this" />
+            </p:dialog> 
+
+
+            <!-- El diálogo donde se encuentra el PickList -->
+            <p:dialog id="dialogoAccesos" header="Asignar Accesos al Perfil" 
+                      widgetVar="dialogoPickList" 
+                      responsive="true" 
+                      width="auto" 
+                      height="auto" 
+                      closable="true" minHeight="400" minWidth="600" style="min-width: 300px; max-width: 90%;" >
+
+                <h5 style="margin-top: 0">Accesos</h5> 
+
+                <p:pickList id="pickList" 
+                            value="#{perfilBeanPersistence.dualListModel}" 
+                            var="acceso" 
+                            itemLabel="#{acceso.nombreAcceso}" 
+                            itemValue="#{acceso}" 
+                            converter="accesoConverterPersistence"
+                            style="width: 300px" >
+
+         </p:pickList>
+
+
+                <p:commandButton value="Guardar" icon="pi pi-save" 
+                                 style="margin-top:10px;" 
+                                 styleClass="mr-2" 
+                                 process=":perfilForm:pickList,  dialogoAccesos" 
+                                 update=":perfilForm:msgsP :perfilForm:pickList"
+                                 oncomplete="PF('dialogoPickList').hide();return false;" 
+                                 actionListener="#{perfilBeanPersistence.guardarRPCambios}" 
+                                 />
+
+            </p:dialog>
+
+
+        </h:form>
+
+
+    </ui:define>
+</ui:composition>

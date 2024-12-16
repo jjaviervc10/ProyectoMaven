@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template/template.xhtml">
+
+    <ui:define name="complete">
+        <h:form>
+            <h:panelGroup style="text-align: center;">
+                <h5>Galería de Imágenes</h5>
+                <i class="pi pi-images"></i>
+            </h:panelGroup>
+
+
+            <p:outputPanel id="contentPanel" >
+
+                <h:panelGroup layout="block" >
+
+                   <p:panel id="galleriaPanel" rendered="#{empty param.page or param.page eq 'inicio'}">
+                        <p:galleria  autoPlay="true"
+                                     numVisible="3"
+                                     showItemNavigators="true"
+                                     circular="true"
+                                     style="max-width: 400px ; margin: 0 auto; "
+                                     >
+                            <p:graphicImage value="resources/images/maradona.jpg" alt="Maradona" style="width: 100%; display: block;background-color: #6D1F2B;color: #ffffff;"/>
+                            <p:graphicImage value="resources/images/messi.jpg" alt="Messi" style="width: 100%; display: block;background-color: #6D1F2B;color: #ffffff;"/>
+                            <p:graphicImage value="resources/images/eto.jpg" alt="Eto" style="width: 100%; display: block;background-color: #6D1F2B;color: #ffffff;"/>
+                        </p:galleria>
+                    </p:panel>
+                </h:panelGroup>
+            </p:outputPanel>
+        </h:form>
+    </ui:define> 
+</ui:composition>
+
+ 

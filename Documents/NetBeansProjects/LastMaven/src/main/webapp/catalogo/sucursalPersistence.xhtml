@@ -1,0 +1,224 @@
+<ui:composition  xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                 xmlns:p="http://primefaces.org/ui"
+                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                 xmlns:f="http://xmlns.jcp.org/jsf/core" template="/WEB-INF/template/template.xhtml">
+
+    <ui:define name="complete">
+
+        <h:form id="mainForm" style="text-align: center">
+            <p:growl id="msgsGrowl" showDetail="true" rendered="true"/>
+
+            <h:panelGroup style="text-align:center">Catálogo Sucursales </h:panelGroup>
+
+            <p:dataTable id="dataTable" var="s" value="#{sucursalPersistenceBean.listaSucursal}" 
+                         paginator="true" rows="10" paginatorPosition="bottom" editable="true"
+                         widgetVar="dataTableWidget" selectionMode="single"
+                         style="margin-bottom:20px" rowKey="#{s.idSucursal}">
+
+                <p:ajax event="rowEdit" listener="#{sucursalPersistenceBean.onRowEdit}" update="@this :mainForm:msgsGrowl :mainForm:dataTable" process="@this"/>
+                <p:ajax event="rowEditCancel" listener="#{sucursalPersistenceBean.onRowCancel}" update="@this :mainForm:msgsGrowl :mainForm:dataTable" process="@this"/>
+
+                <p:column headerText="Nombre Sucursal" filterBy="#{s.nombreSucursal}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{s.nombreSucursal}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="nombreSucursal" value="#{s.nombreSucursal}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Ciudad" filterBy="#{s.ciudad}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{s.ciudad}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="ciudad" value="#{s.ciudad}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Estado" filterBy="#{s.estado}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{s.estado}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="estado" value="#{s.estado}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Estatus Sucursal" filterBy="#{s.activo}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:selectBooleanCheckbox value="#{s.activo}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:selectBooleanCheckbox value="#{s.activo}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Fecha Alta" filterBy="#{s.fechaAlta}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{s.fechaAlta}">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="fechAlta" value="#{s.fechaAlta}" 
+                                         converter="javax.faces.DateTime" 
+                                         required="true">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Fecha Servidor" filterBy="#{s.fechaServidor}" filterMatchMode="contains">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{s.fechaServidor}">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{s.fechaServidor}" 
+                                         converter="javax.faces.DateTime"
+                                         required="true">
+                                <f:convertDateTime pattern="dd-MM-yyyy HH:mm:ss" />
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <!-- Columna para el nombre de la empresa relacionada con la sucursal -->
+                <p:column headerText="Nombre Empresa">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{s.idEmpresa.nombreEmpresa}" /> <!-- Accede al nombre de la empresa relacionada -->
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText id="nombreEmpresa" value="#{s.idEmpresa.nombreEmpresa}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+
+                <p:column style="width:8rem">
+                    <f:facet name="header">
+                        <h:outputText value="Nueva Fila" style="margin-right: 30px; margin-bottom: 10px"/>
+
+                        <p:commandButton icon="pi pi-plus" type="button"
+                                         style="background-color: #800000; color: #ffffff; border: 2px solid #FF5733;border-color: #C70039; width: 120px;"
+                                         onclick="PF('dialogo').show();" process="@this"/>
+                    </f:facet>
+                    <p:rowEditor editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row"/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton icon="pi pi-trash"
+                                     styleClass="mr-2"
+                                     style="background-color: #800000; color: #ffffff; border: 2px solid #FF5733;border-color: #C70039; width: 100px;"
+                                     action="#{sucursalPersistenceBean.eliminarSucursal(s.idSucursal)}"
+
+                                     process="@this">
+
+                        <p:confirm header="Confirmation" message="¿Esta seguro que desea eliminar la fila #{s.idSucursal}?" icon="pi pi-exclamation-triangle"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" responsive="true" width="350">
+                <p:commandButton value="No,eliminar" type="button" styleClass="ui-confirmdialog-no ui-button-flat"
+                                 oncomplete="PF('confirmDialog').hide();return false;"
+                                 update=":mainForm:dataTable :mainForm:msgsGrowl"/>
+                <p:commandButton value="Si,eliminar" icon="pi pi-check"
+                                 styleClass="ui-confirmdialog-yes"
+                                 type="button"
+                                 oncomplete="PF('confirmDialog').hide(); PF('msgs').show();"
+                                 update=":mainForm:msgsGrowl"
+                                 />
+            </p:confirmDialog> 
+
+            <p:dialog header="Agregar Nueva Sucursal" widgetVar="dialogo" closable="true" rendered="true" height="auto" width="auto"
+                      style="min-width: 300px; max-width: 90%;" minHeight="900" minWidth="600">
+                <p:outputPanel id="panel" styleClass="mb-2">
+                    <h:outputText value="Usuario agregará una nueva fila. Complete el formulario a continuación:"/>
+                    <h:panelGrid columns="1" cellpadding="1" style="width: 100%; max-width: 90%; margin-top:20px; text-align: left;">
+
+                        <p:outputLabel for="empresa" value="Empresa:" style="text-align: left;"/>
+                        <p:selectOneMenu id="empresa" value="#{sucursalPersistenceBean.selectedIdEmpresa}">
+                            <f:selectItem itemLabel="Seleccione una empresa" itemValue="" noSelectionOption="true"/>
+                            <f:selectItems value="#{sucursalPersistenceBean.listaEmpresas}" var="empresa"
+                                           itemValue="#{empresa.idEmpresa}" itemLabel="#{empresa.nombreEmpresa}"/>
+                        </p:selectOneMenu>
+                        <p:message for="empresa" display="text"/>
+
+                        <p:outputLabel for="nombreSucursalInput" value="Nombre Sucursal:" style="text-align: left;"/>
+                        <p:inputText id="nombreSucursalInput" value="#{sucursalPersistenceBean.nuevaSucursal.nombreSucursal}"
+                                     onblur="if (this.value.trim() === '') {
+                                                 this.classList.add('ui-state-error');
+                                             } else {
+                                                 this.classList.remove('ui-state-error');
+                                             }"
+                                     styleClass="inputField"/>
+                        <p:message for="nombreSucursalInput" display="text"/>
+
+                        <p:outputLabel for="ciudadInput" value="Nombre Ciudad:" style="text-align: left;"/>
+                        <p:inputText id="ciudadInput" value="#{sucursalPersistenceBean.nuevaSucursal.ciudad}"
+                                     onblur="if (this.value.trim() === '') {
+                                                 this.classList.add('ui-state-error');
+                                             } else {
+                                                 this.classList.remove('ui-state-error');
+                                             }"
+                                     styleClass="inputField"/>
+                        <p:message for="ciudadInput" display="text"/>
+
+                        <p:outputLabel for="nombreEstadoInput" value="Nombre Estado:" style="text-align: left;"/>
+                        <p:inputText id="nombreEstadoInput" value="#{sucursalPersistenceBean.nuevaSucursal.estado}"
+                                     onblur="if (this.value.trim() === '') {
+                                                 this.classList.add('ui-state-error');
+                                             } else {
+                                                 this.classList.remove('ui-state-error');
+                                             }"
+                                     styleClass="inputField"/>
+                        <p:message for="nombreEstadoInput" display="text"/>
+                    </h:panelGrid>
+                </p:outputPanel>
+                
+                <p:commandButton value="Guardar" icon="pi pi-check"
+                                 style="background-color: #800000; color: #ffffff;"
+                                 process="@this,empresa,nombreSucursalInput,ciudadInput,nombreEstadoInput"
+                                 action="#{sucursalPersistenceBean.guardarNuevaSucursal()}"
+                                 update=":mainForm:msgsGrowl, panel"
+                                 oncomplete="PF('dialogo').hide();#{sucursalPersistenceBean.reset()}"/>
+                <p:commandButton value="Cancelar" icon="pi pi-times"
+                                 oncomplete="PF('dialogo').hide();"
+                                 style="background-color: #800000; color: #ffffff;"
+                                 update="panel"
+                                 action="#{sucursalPersistenceBean.reset()}"
+                                 process="@this"/>
+            </p:dialog>
+
+
+            <p:dialog id="dialogoAccesos" header="Accesos" widgetVar="dialogoPickList" responsive="true"
+                      height="auto" width="auto" style="min-width: 300px; max-width: 90%;" 
+                      minHeight="400" minWidth="600" >
+                <p:commandButton value="Guardar" icon="pi pi-save" style="margin-top:10px;" 
+                                 styleClass="mr-2" 
+                                 process="dialogoAccesos  " update="msgsGrowl"
+                                 actionListener="#{sucursalBean.guardarAccesos}" >
+
+
+                </p:commandButton>
+
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

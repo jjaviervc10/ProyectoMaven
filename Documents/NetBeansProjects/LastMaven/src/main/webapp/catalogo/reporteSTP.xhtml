@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html" 
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core" template="/WEB-INF/template/template.xhtml"> 
+
+    <ui:define name="complete"> 
+        <h:form id="formReporteSTP" style="text-align: center" >
+            <p:growl id="msgsReporteStp" showDetail="true"/>
+            <h:panelGroup style="text-align:center">Reporte STP</h:panelGroup> 
+
+            <h:panelGroup style="display: flex; justify-content: center; align-items: center; text-align: center;margin-top: 10px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <h:outputLabel for="fechaInicio" value="Fecha Inicio:" />
+                    <p:calendar id="fechaInicio" value="#{reporteStpBean.fechaInicio}" pattern="yyyy/MM/dd" 
+                                showButtonPanel="true" navigator="true" locale="es" required="true" 
+                                requiredMessage="La fecha de inicio es obligatoria" />
+
+                    <h:outputLabel for="fechaFin" value="Fecha Fin:" />
+                    <p:calendar id="fechaFin" value="#{reporteStpBean.fechaFin}" pattern="yyyy/MM/dd" 
+                                showButtonPanel="true" navigator="true" locale="es" required="true" 
+                                requiredMessage="La fecha de fin es obligatoria" />
+
+                    
+                          <!-- Botón de búsqueda -->
+        <p:commandButton value="Generar Reporte" action="#{reporteStpBean.generarReporte}" update=":formReporteSTP:reporteTableStp  :formReporteSTP:msgsReporteStp" />
+
+                </div>
+            </h:panelGroup>
+
+
+     
+            <p:dataTable id="reporteTableStp" value="#{reporteStpBean.ventas}" var="venta" rows="10" paginator="true">
+
+              <p:column headerText="Nombre Empresa">
+                    <h:outputText value="#{venta.nombreEmpresa}" />
+                </p:column>
+
+                <p:column headerText="Nombre Sucursal">
+                    <h:outputText value="#{venta.nombreSucursal}" />
+                </p:column>
+
+                <p:column headerText="Nombre Empleado">
+                    <h:outputText value="#{venta.nombreCompletoEmpleado}" />
+                </p:column>
+
+                <p:column headerText="Cantidad Productos">
+                    <h:outputText value="#{venta.cantidadProductos}" />
+                </p:column>
+ 
+                <p:column headerText="Total Venta">
+                    <h:outputText value="#{venta.totalVenta}" />
+                </p:column>
+
+            </p:dataTable>
+            
+            
+      
+        </h:form>
+    </ui:define>
+</ui:composition>

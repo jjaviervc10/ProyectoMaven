@@ -1,0 +1,34 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pa="http://primefaces.org/mirage"
+    xmlns:pm="http://primefaces.org/mirage">
+
+
+    <h:form>
+        <p:growl id="growl" showDetail="true" />
+
+        <div class="layout-breadcrumb">
+            <div class="breadcrumb">
+
+                <div class="route-bar-breadcrumb">
+                    <ui:insert name="viewname" />
+                </div>
+            </div>
+           <!-- <div class="notification">
+                👋 Hola,  <h:outputText value="#{sessionScope.nombreCompleto}"  styleClass="username" />
+            </div>-->
+
+            <div style="display: flex; justify-content: center; margin-top: 20px;">
+                <p:commandButton  styleClass="p-button-danger" 
+                                 value="Cerrar Sesión" action="#{loginBean.logout()}"
+                                 icon="pi pi-fw pi-sign-out"
+                                 update="growl" oncomplete="PF('growl').show()" />
+            </div>
+
+        </div>
+   </h:form>
+</ui:composition>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+    
+    <name>primefaces_mirage</name>
+    
+    <!-- Configuración del ManagedBean -->
+    
+    <managed-bean>
+        <managed-bean-name>reporteBean</managed-bean-name>
+        <managed-bean-class>beans.ReporteBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    
+        <managed-bean>
+        <managed-bean-name>sucursalBeanPersistence</managed-bean-name>
+        <managed-bean-class>beans.sucursalPersistenceBean</managed-bean-class>
+    
+        <managed-bean-scope>view</managed-bean-scope></managed-bean>
+
+  <managed-bean>
+        <managed-bean-name>reporteStpBean</managed-bean-name>
+        <managed-bean-class>beans.ReporteStpBean</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    
+     <managed-bean>
+        <managed-bean-name>perfilBeanPersistence</managed-bean-name> 
+        <managed-bean-class>beans.perfilBeanPersistence</managed-bean-class>
+    
+        <managed-bean-scope>view</managed-bean-scope></managed-bean>
+    
+    
+    <component>
+        <component-type>org.primefaces.component.MirageMenu</component-type>
+        <component-class>org.primefaces.mirage.component.MirageMenu</component-class>
+    </component>
+    
+    <render-kit>
+        <renderer>
+            <component-family>org.primefaces.component</component-family>
+            <renderer-type>org.primefaces.component.MirageMenuRenderer</renderer-type>
+            <renderer-class>org.primefaces.mirage.component.MirageMenuRenderer</renderer-class>
+        </renderer>
+    </render-kit>
+    
+  
+</faces-config>

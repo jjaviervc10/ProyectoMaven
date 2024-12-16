@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/LastMaven">
+  <!-- Configuración del recurso de conexión a la base de datos -->
+  <Resource auth="Container" driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver" logAbandoned="true" maxIdle="10" maxTotal="20" maxWaitMillis="10000" name="jdbc/MyDB" password="goodluck" removeAbandonedOnBorrow="true" removeAbandonedTimeout="60" type="javax.sql.DataSource" url="jdbc:sqlserver://192.168.98.224:1433;databaseName=Capacitacion" username="newbie"/>
+</Context>
